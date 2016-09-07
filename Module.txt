@@ -1,0 +1,13 @@
+Name: GitHgMirror Common
+AntiForgery: enabled
+Author: Lombiq
+Website: http://githgmirror.com/
+Version: 1.0
+OrchardVersion: 1.10.1
+Description: Everything common for GitHgMirror.
+Features:
+	GitHgMirror.Common:
+		Name: GitHgMirror Common
+		Description: Everything common for GitHgMirror.
+		Category: Lombiq Tenants
+		Dependencies: Orchard.AntiSpam, Orchard.Resources

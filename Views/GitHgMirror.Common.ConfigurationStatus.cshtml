@@ -1,0 +1,31 @@
+﻿@{
+    var statusViewModel = (GitHgMirror.Common.Models.ViewModels.ConfigurationStatusViewModel)Model.StatusViewModel;
+}
+
+<div id="git-hg-mirror-status-container" class="git-hg-mirror-status-@statusViewModel.Status">
+    <h2>@T("Status")</h2>
+
+    <div id="git-hg-mirror-status">
+        @T(statusViewModel.Status.ToString())
+    </div>
+
+    <div id="git-hg-mirror-status-description">
+        @switch (statusViewModel.Status)
+        {
+            case GitHgMirror.CommonTypes.MirroringStatus.New:
+                @T("The mirroring is new and although it's in the pipe we haven't done anything with it yet. A bit of patience please!")
+                break;
+            case GitHgMirror.CommonTypes.MirroringStatus.Cloning:
+            @T("The first cloning of the \"from\" repository and the first push to the \"to\" repository is being done. Depending on the size of the repository this can take a while.")
+                break;
+            case GitHgMirror.CommonTypes.MirroringStatus.Failed:
+            @T("Something horrible happened while trying to sync the two repositories. Our engineers know about this and have some appropriate coffee and cookies dispatched to them to come up with a solution.")
+                break;
+            case GitHgMirror.CommonTypes.MirroringStatus.Syncing:
+            @T("Everything works, everybody is happy!")
+                break;
+        }
+    </div>
+
+    @T("You can refresh this page to see if the status of this configuration changes.")
+</div>

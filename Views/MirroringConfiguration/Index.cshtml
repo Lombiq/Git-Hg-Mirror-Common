@@ -1,0 +1,60 @@
+﻿@model GitHgMirror.Common.Models.ViewModels.MirroringConfigurationsViewModel
+@using GitHgMirror.Common.Models
+@using Orchard.ContentManagement
+
+@{
+    Script.Require("ShapesBase");
+
+    Html.TitleForPage(T("My Mirroring Configurations"));
+}
+
+<h1>
+    @Html.TitleForPage(T("Two-way mirroring (syncing) between git and mercurial repositories").Text)
+</h1>
+
+<h2>
+    @Html.ActionLink(T("Create new Mirroring Configuration").Text, "Create", "MirroringConfiguration", new { Area = "GitHgMirror.Common" }, new { @class = "button" })
+</h2>
+
+@if (Model.OwnMirroringConfigurations.Count() == 0)
+{
+    <h3>
+        @T("There are no Mirroring Configurations to display.")
+    </h3>
+}
+else
+{
+    using (Html.BeginFormAntiForgeryPost())
+    {
+        <fieldset>
+            <ul>
+                @foreach (var ownMirroringConfiguration in Model.OwnMirroringConfigurations)
+                {
+                    <li>
+                        <span>
+                            @{
+                                var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
+                            }
+
+                            @ownMirroringConfigurationTitle
+                        </span>
+                        <span>
+                            @Html.ActionLink(T("Edit/View status").Text, "Edit", "MirroringConfiguration", new { Area = "GitHgMirror.Common", id = ownMirroringConfiguration.Id }, new { })
+                        </span>
+                        <span>
+                            @Html.ActionLink(T("Delete").Text, "Delete", "MirroringConfiguration", new { Area = "GitHgMirror.Common", id = ownMirroringConfiguration.Id }, new { itemprop = "RemoveUrl UnsafeUrl" })
+                        </span>
+                    </li>
+                }
+            </ul>
+        </fieldset>
+
+    }
+}
+
+@using (Script.Foot())
+{
+    <script type="text/javascript">
+        var confirmRemoveMessage = '@T("Are you sure you want to delete this Mirroring Configuration?")';
+    </script>
+}

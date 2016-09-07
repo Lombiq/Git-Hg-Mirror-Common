@@ -1,0 +1,12 @@
+﻿@{ Layout.Title = T("Edit Mirroring Configuration"); }
+
+<h1>
+    @T("Here you can modify the mirroring configuration.")
+</h1>
+
+@Html.ActionLink(T("Back to my configurations").Text, "Index", "MirroringConfiguration", new { Area = "GitHgMirror.Common" }, new { })
+
+@using (Html.BeginFormAntiForgeryPost())
+{
+    @Display(Model)
+}

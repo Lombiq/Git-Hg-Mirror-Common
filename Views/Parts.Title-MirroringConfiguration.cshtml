@@ -1,0 +1,18 @@
+﻿@model dynamic
+
+@{
+    Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = Model.Prefix;
+    var viewModel = (Orchard.Core.Title.Models.TitlePart)Model.Model;
+
+}
+
+@Html.ValidationSummary()
+
+<fieldset>
+    @Html.Label("Title", "Title")
+    @Html.TextBox("Title", viewModel.Title, new { @class = "text" })
+</fieldset>
+
+@{
+    Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "";
+}

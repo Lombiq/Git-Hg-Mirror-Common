@@ -1,0 +1,94 @@
+﻿@model GitHgMirror.Common.Models.MirroringConfigurationPart
+@using GitHgMirror.CommonTypes
+
+@{
+    Style.Include("~/Modules/GitHgMirror.Common/Content/qTip/jquery.qtip.min.css");
+    Style.Include("githgmirror-urlfield.css");
+
+    Script.Require("jQuery").AtFoot();
+    Script.Include("~/Modules/GitHgMirror.Common/Content/qTip/jquery.qtip.min.js").AtFoot();
+    Script.Include("githgmirror-urlfield.js").AtFoot();
+
+    var directions = new[]
+    {
+        new SelectListItem { Text = T("Git to hg").Text, Value = MirroringDirection.GitToHg.ToString() },
+        new SelectListItem { Text = T("Hg to git").Text, Value = MirroringDirection.HgToGit.ToString() },
+        new SelectListItem { Text = T("Two-way").Text, Value = MirroringDirection.TwoWay.ToString() }
+    };
+}
+
+@using (Html.BeginFormAntiForgeryPost())
+{
+    <fieldset id="git-hg-mirror-configuration-setup-fieldset">
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.GitCloneUrl, T("Git clone URL"))
+                <div id="@(Html.FieldIdFor(m => m.GitCloneUrl) + "_SwitchButton")" class="password-switch">
+                    <a>Hide</a> <img class="password-visible" />
+                </div>
+                @Html.TextBox(Html.NameOf(m => m.GitCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full url of the git repo. Note that only HTTPS is supported, no SSH! You can include a username and password e.g. like this: https://username:password@example.com/repo.git (please do this so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
+                @Html.HiddenFor(m => m.GitCloneUrl)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.GitUrlIsHgUrl, T("Git url is really an hg url"))
+                @Html.CheckBoxFor(m => m.GitUrlIsHgUrl, new { title = T("The url in the Git Clone Url field is a hg url. With this you can do hg-hg mirroring.") })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.HgCloneUrl, T("Hg clone URL"))
+                <div id="@(Html.FieldIdFor(m => m.HgCloneUrl) + "_SwitchButton")" class="password-switch">
+                    <a>Hide</a> <img class="password-visible" />
+                </div>
+                @Html.TextBox(Html.NameOf(m => m.HgCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full url of the hg repo. You can include a username and password e.g. like this: https://username:password@example.com/repo (please do this so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
+                @Html.HiddenFor(m => m.HgCloneUrl)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Direction, T("Mirroring direction"))
+                @Html.DropDownListFor(m => m.Direction, directions)
+            </li>
+        </ol>
+    </fieldset>
+}
+
+@using (Script.Foot())
+{
+    <script type="text/javascript">
+
+        (function ($) {
+            $(function () {
+
+                $(".password-switch").mousedown(function () {
+                    var setToHidden = $(this).find("img").hasClass("password-visible");
+                    var visibleField = $.GitHgMirror.UrlField.getVisibleField($(this));
+                    $.GitHgMirror.UrlField.updateVisibleField(visibleField, setToHidden);
+                });
+
+                $(".url-field").on("input propertychange paste", function () {
+                    $.GitHgMirror.UrlField.copyContentToHiddenField($(this));
+                    $.GitHgMirror.UrlField.setSwitchButtonVisibility($(this));
+                });
+
+                $(".url-field").focusout(function () {
+                    $.GitHgMirror.UrlField.updateVisibleField($(this), true);
+                });
+
+                $(".url-field").each(function () {
+                    $.GitHgMirror.UrlField.updateVisibleField($(this), true);
+                    $.GitHgMirror.UrlField.setSwitchButtonVisibility($(this));
+                });
+
+                $("form input[type='text']").qtip({
+                    show: 'focus',
+                    hide: 'blur',
+                    position: { my: "top center", at: "bottom center", container: $(".zone-content") }
+                });
+
+                $("form input[type='checkbox']").qtip({
+                    show: 'focus',
+                    hide: 'blur',
+                    position: { my: "top left", at: "bottom left", container: $(".zone-content") },
+                    style: { classes: 'qtip-checkbox' }
+                });
+            });
+        })(jQuery);
+    </script>
+}

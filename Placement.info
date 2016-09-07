@@ -1,0 +1,20 @@
+﻿<Placement>
+  <!-- PARTS -->
+
+  <!-- MirroringConfigurationPart -->
+  <Place Parts_MirroringConfiguration_Edit="Content:10" />
+
+  <!-- END PARTS -->
+
+
+
+  <!-- CONTENT TYPES -->
+
+  <!-- MirroringConfiguration -->
+  <Match ContentType="MirroringConfiguration">
+    <Place Parts_Autoroute_Edit="-" 
+           Parts_Title_Edit="Content:5;Alternate=Parts_Title__MirroringConfiguration" />
+  </Match>
+
+  <!-- END CONTENT TYPES -->
+</Placement>
