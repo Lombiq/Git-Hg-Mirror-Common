@@ -51,7 +51,6 @@ namespace GitHgMirror.Common.Drivers
 
                 if (!part.GitUrlIsHgUrl)
                 {
-
                     // Try to convert to known URL formats that are correctly handled by hg-git
                     var gitUriBuilder = new UriBuilder(gitUri);
                     gitUriBuilder.Port = 0;
