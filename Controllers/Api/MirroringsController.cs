@@ -2,24 +2,27 @@
 using GitHgMirror.Common.Models;
 using GitHgMirror.CommonTypes;
 using Orchard.ContentManagement;
+using Orchard.Environment.Configuration;
+using Orchard.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Orchard.Security;
 
 namespace GitHgMirror.Common.Controllers.Api
 {
     public class MirroringsController : ApiController
     {
         private readonly IContentManager _contentManager;
+        private readonly IAppConfigurationAccessor _appConfigurationAccessor;
 
 
-        public MirroringsController(IContentManager contentManager)
+        public MirroringsController(IContentManager contentManager, IAppConfigurationAccessor appConfigurationAccessor)
         {
             _contentManager = contentManager;
+            _appConfigurationAccessor = appConfigurationAccessor;
         }
 
 
@@ -67,14 +70,18 @@ namespace GitHgMirror.Common.Controllers.Api
             mirroringConfigurationPart.StatusMessage = report.Message;
         }
 
-        private static void ThrowIfPasswordInvalid(string password)
+        private void ThrowIfPasswordInvalid(string password)
         {
             if (!PasswordIsValid(password)) throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
         }
 
-        private static bool PasswordIsValid(string password)
+        private bool PasswordIsValid(string password)
         {
-            return password == "Fsdfp342LE8%!";
+            var configuredPassword = _appConfigurationAccessor.GetConfiguration(AppConfigurationKeys.ApiPassword);
+
+            Argument.ThrowIfNullOrEmpty(configuredPassword, AppConfigurationKeys.ApiPassword);
+
+            return password == configuredPassword;
         }
     }
 }
