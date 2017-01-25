@@ -136,6 +136,11 @@ namespace GitHgMirror.Common.Controllers
 
             _contentManager.Publish(mirroringConfiguration);
 
+            var mirroringConfigurationPart = mirroringConfiguration.As<MirroringConfigurationPart>();
+
+            mirroringConfigurationPart.FailedSyncCounter = 0;
+            mirroringConfigurationPart.Status = MirroringStatus.New.ToString();
+
             _orchardServices.Notifier.Information(T("Mirroring Configuration successfully saved."));
 
             return RedirectToAction("Edit", new { Id = mirroringConfiguration.Id });
