@@ -10,4 +10,4 @@ Features:
 		Name: GitHgMirror Common
 		Description: Everything common for GitHgMirror.
 		Category: Lombiq Tenants
-		Dependencies: Orchard.AntiSpam, Orchard.Resources
+		Dependencies: Orchard.AntiSpam, Orchard.Resources, Orchard.Workflows, Orchard.Email, Orchard.Email.Workflows
