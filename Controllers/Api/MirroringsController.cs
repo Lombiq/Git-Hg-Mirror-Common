@@ -4,6 +4,7 @@ using GitHgMirror.CommonTypes;
 using Orchard.ContentManagement;
 using Orchard.Environment.Configuration;
 using Orchard.Validation;
+using Orchard.Workflows.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace GitHgMirror.Common.Controllers.Api
     {
         private readonly IContentManager _contentManager;
         private readonly IAppConfigurationAccessor _appConfigurationAccessor;
+        private readonly IWorkflowManager _workflowManager;
 
 
-        public MirroringsController(IContentManager contentManager, IAppConfigurationAccessor appConfigurationAccessor)
+        public MirroringsController(IContentManager contentManager, IAppConfigurationAccessor appConfigurationAccessor, IWorkflowManager workflowManager)
         {
             _contentManager = contentManager;
             _appConfigurationAccessor = appConfigurationAccessor;
+            _workflowManager = workflowManager;
         }
 
 
@@ -69,9 +72,27 @@ namespace GitHgMirror.Common.Controllers.Api
             if (mirroringConfiguration == null && mirroringConfiguration.ContentType != ContentTypes.MirroringConfiguration) throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
 
             var mirroringConfigurationPart = mirroringConfiguration.As<MirroringConfigurationPart>();
-            mirroringConfigurationPart.Status = report.Status.ToString();
             mirroringConfigurationPart.StatusCode = report.Code;
             mirroringConfigurationPart.StatusMessage = report.Message;
+
+            if (report.Status == MirroringStatus.Failed)
+            {
+                mirroringConfigurationPart.FailedSyncCounter++;
+
+                if (mirroringConfigurationPart.FailedSyncCounter == GitHgMirrorSetup.MaximumNumberOfFailedSyncs)
+                {
+                    mirroringConfigurationPart.Status = MirroringStatus.Disabled.ToString();
+                    _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, null,
+                        () => new Dictionary<string, object>
+                        {
+                            { TokenNames.MirroringConfiguration, mirroringConfiguration }
+                        });
+                }
+            }
+            else
+            {
+                mirroringConfigurationPart.Status = report.Status.ToString();
+            }
         }
 
         private void ThrowIfPasswordInvalid(string password)
