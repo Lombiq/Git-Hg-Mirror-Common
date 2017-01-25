@@ -32,6 +32,8 @@ namespace GitHgMirror.Common.Controllers.Api
 
             return _contentManager
                 .Query(ContentTypes.MirroringConfiguration)
+                .Where<MirroringConfigurationPartRecord>(record =>
+                    record.Status != MirroringStatus.Disabled.ToString())
                 .Slice(skip, take)
                 .Select(item =>
                     {
@@ -54,6 +56,8 @@ namespace GitHgMirror.Common.Controllers.Api
 
             return _contentManager
                 .Query(ContentTypes.MirroringConfiguration)
+                .Where<MirroringConfigurationPartRecord>(record =>
+                    record.Status != MirroringStatus.Disabled.ToString())
                 .Count();
         }
 
