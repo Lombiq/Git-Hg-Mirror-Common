@@ -1,6 +1,6 @@
 ﻿namespace GitHgMirror.Common.Constants
 {
-    public static class GitHgMirrorSetup
+    public static class Configuration
     {
         public const int MaximumNumberOfFailedSyncs = 3;
     }

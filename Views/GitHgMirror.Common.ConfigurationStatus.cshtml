@@ -26,7 +26,7 @@
             @T("Everything works, everybody is happy!")
                 break;
             case GitHgMirror.CommonTypes.MirroringStatus.Disabled:
-            @T("Your configuration failed {0} times in a row. Please check the settings of your mirroring configuration and try again. If the sync is still failing, please <a href=\"{1}\">drop us a line</a>.", GitHgMirror.Common.Constants.GitHgMirrorSetup.MaximumNumberOfFailedSyncs, "https://lombiq.com/contact-us")
+            @T("Your configuration failed {0} times in a row. Please check the settings of your mirroring configuration, especially that suitable credentials are included and correct, and try again. If the sync is still failing, please <a href=\"{1}\">drop us a line</a>.", GitHgMirror.Common.Constants.Configuration.MaximumNumberOfFailedSyncs, "https://lombiq.com/contact-us")
                 statusIsDisabled = true;
                 break;
         }

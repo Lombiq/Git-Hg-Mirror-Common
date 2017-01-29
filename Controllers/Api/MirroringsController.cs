@@ -79,7 +79,7 @@ namespace GitHgMirror.Common.Controllers.Api
             {
                 mirroringConfigurationPart.FailedSyncCounter++;
 
-                if (mirroringConfigurationPart.FailedSyncCounter == GitHgMirrorSetup.MaximumNumberOfFailedSyncs)
+                if (mirroringConfigurationPart.FailedSyncCounter >= Constants.Configuration.MaximumNumberOfFailedSyncs)
                 {
                     mirroringConfigurationPart.Status = MirroringStatus.Disabled.ToString();
                     _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, null,

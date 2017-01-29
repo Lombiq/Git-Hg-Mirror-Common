@@ -159,7 +159,7 @@
     <Compile Include="Constants\ActivityNames.cs" />
     <Compile Include="Constants\AppConfigurationKeys.cs" />
     <Compile Include="Constants\ContentTypes.cs" />
-    <Compile Include="Constants\GitHgMirrorSetup.cs" />
+    <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Constants\TokenNames.cs" />
     <Compile Include="Controllers\MirroringConfigurationController.cs" />
     <Compile Include="Controllers\Api\MirroringsController.cs" />
