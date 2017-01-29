@@ -21,7 +21,10 @@ namespace GitHgMirror.Common.Controllers.Api
         private readonly IWorkflowManager _workflowManager;
 
 
-        public MirroringsController(IContentManager contentManager, IAppConfigurationAccessor appConfigurationAccessor, IWorkflowManager workflowManager)
+        public MirroringsController(
+            IContentManager contentManager, 
+            IAppConfigurationAccessor appConfigurationAccessor, 
+            IWorkflowManager workflowManager)
         {
             _contentManager = contentManager;
             _appConfigurationAccessor = appConfigurationAccessor;
