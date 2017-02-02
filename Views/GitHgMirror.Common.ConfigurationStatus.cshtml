@@ -33,6 +33,18 @@
     </div>
     @if (!statusIsDisabled)
     {
-        @T("You can refresh this page to see if the status of this configuration changes.")
+        <div id="git-hg-mirror-refresh-page-text">
+            @T("You can refresh this page to see if the status of this configuration changes.")
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(statusViewModel.StatusMessage))
+    {
+        <div id="git-hg-mirror-last-exception-wrapper">
+            <h3>@T("Last error:")</h3>
+            <div id="git-hg-mirror-last-exception-message" class="message message-Error">
+                @statusViewModel.StatusMessage
+            </div>
+        </div>
     }
 </div>
