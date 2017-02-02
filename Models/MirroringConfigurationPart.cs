@@ -1,9 +1,10 @@
 ﻿using Orchard.ContentManagement;
+using Orchard.ContentManagement.Records;
 using System.ComponentModel.DataAnnotations;
 
 namespace GitHgMirror.Common.Models
 {
-    public class MirroringConfigurationPart : ContentPart
+    public class MirroringConfigurationPart : ContentPart<MirroringConfigurationPartRecord>
     {
         [Required(ErrorMessage = "We'll need a git URL to get this done!")]
         public string GitCloneUrl
@@ -49,5 +50,17 @@ namespace GitHgMirror.Common.Models
             get { return this.Retrieve(x => x.GitUrlIsHgUrl); }
             set { this.Store(x => x.GitUrlIsHgUrl, value); }
         }
+
+        public int FailedSyncCounter
+        {
+            get { return this.Retrieve(x => x.FailedSyncCounter); }
+            set { this.Store(x => x.FailedSyncCounter, value); }
+        }
+    }
+
+
+    public class MirroringConfigurationPartRecord : ContentPartRecord
+    {
+        public virtual string Status { get; set; }
     }
 }

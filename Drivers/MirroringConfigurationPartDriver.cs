@@ -68,6 +68,7 @@ namespace GitHgMirror.Common.Drivers
                 }
 
                 part.Status = MirroringStatus.New.ToString();
+                part.FailedSyncCounter = 0;
             }
 
             return Editor(part, shapeHelper);

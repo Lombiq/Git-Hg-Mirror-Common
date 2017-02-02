@@ -5,6 +5,7 @@ using GitHgMirror.CommonTypes;
 using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Core.Common.Models;
+using Orchard.Core.Title.Models;
 using Orchard.Localization;
 using Orchard.Security;
 using Orchard.Themes;
@@ -12,7 +13,6 @@ using Orchard.UI.Notify;
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using Orchard.Core.Title.Models;
 
 namespace GitHgMirror.Common.Controllers
 {

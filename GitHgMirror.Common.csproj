@@ -145,19 +145,33 @@
       <Project>{91bc2e7f-da04-421c-98ef-76d37cec130c}</Project>
       <Name>Orchard.AntiSpam</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orchard.Tokens\Orchard.Tokens.csproj">
+      <Project>{6F759635-13D7-4E94-BCC9-80445D63F117}</Project>
+      <Name>Orchard.Tokens</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Workflows\Orchard.Workflows.csproj">
+      <Project>{7059493C-8251-4764-9C1E-2368B8B485BC}</Project>
+      <Name>Orchard.Workflows</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\SendSyncFailedEmailActivity.cs" />
+    <Compile Include="Constants\ActivityNames.cs" />
     <Compile Include="Constants\AppConfigurationKeys.cs" />
     <Compile Include="Constants\ContentTypes.cs" />
+    <Compile Include="Constants\Configuration.cs" />
+    <Compile Include="Constants\TokenNames.cs" />
     <Compile Include="Controllers\MirroringConfigurationController.cs" />
     <Compile Include="Controllers\Api\MirroringsController.cs" />
     <Compile Include="Drivers\MirroringConfigurationPartDriver.cs" />
+    <Compile Include="Handlers\MirroringConfigurationPartHandler.cs" />
     <Compile Include="Migrations\MirroringConfigurationMigrations.cs" />
     <Compile Include="Models\MirroringConfigurationPart.cs" />
     <Compile Include="Models\ViewModels\ConfigurationStatusViewModel.cs" />
     <Compile Include="Models\ViewModels\MirroringConfigurationsViewModel.cs" />
     <Compile Include="Routes\MirroringConfigurationRoutes.cs" />
     <Compile Include="Services\LogOnTitleSetter.cs" />
+    <Compile Include="Tokens\MirroringConfigurationTokens.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\GitHgMirror.Common.ConfigurationStatus.cshtml" />
