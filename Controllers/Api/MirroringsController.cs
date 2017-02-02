@@ -76,11 +76,11 @@ namespace GitHgMirror.Common.Controllers.Api
 
             var mirroringConfigurationPart = mirroringConfiguration.As<MirroringConfigurationPart>();
             mirroringConfigurationPart.StatusCode = report.Code;
-            mirroringConfigurationPart.StatusMessage = report.Message;
 
             if (report.Status == MirroringStatus.Failed)
             {
                 mirroringConfigurationPart.FailedSyncCounter++;
+                mirroringConfigurationPart.StatusMessage = report.Message;
 
                 if (mirroringConfigurationPart.FailedSyncCounter >= Constants.Configuration.MaximumNumberOfFailedSyncs)
                 {
