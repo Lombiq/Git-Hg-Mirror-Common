@@ -62,5 +62,6 @@ namespace GitHgMirror.Common.Models
     public class MirroringConfigurationPartRecord : ContentPartRecord
     {
         public virtual string Status { get; set; }
+        public virtual string StatusMessage { get; set; }
     }
 }
