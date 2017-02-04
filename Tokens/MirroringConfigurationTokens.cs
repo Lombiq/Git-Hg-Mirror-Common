@@ -20,11 +20,11 @@ namespace GitHgMirror.Common.Tokens
 
         public void Describe(DescribeContext context) =>
             context.For(TokenNames.MirroringConfiguration, T("Mirroring Configuration"), T("Tokens for Mirroring Configuration."))
+                .Token("Content", T("Content"), T("Chaining to Content tokens."), "Content")
                 .Token("Direction", T("Mirroring direction"), T("The direction of the sync."))
                 .Token("FailedSyncCounter", T("Failed sync counter"), T("The number of failed synchronization attempts."))
                 .Token("GitCloneUrl", T("Git clone URL"), T("The full URL of the git repo."))
-                .Token("HgCloneUrl", T("Hg clone URL"), T("The full URL of the hg repo."))
-                .Token("User", T("User"), T("The owner of the Mirroring Configuration."));
+                .Token("HgCloneUrl", T("Hg clone URL"), T("The full URL of the hg repo."));
 
         public void Evaluate(EvaluateContext context) =>
             context.For<IContent>(TokenNames.MirroringConfiguration, () => null)
@@ -32,6 +32,6 @@ namespace GitHgMirror.Common.Tokens
                 .Token("Direction", content => content.As<MirroringConfigurationPart>().Direction)
                 .Token("FailedSyncCounter", content => content.As<MirroringConfigurationPart>().FailedSyncCounter)
                 .Token("GitCloneUrl", content => content.As<MirroringConfigurationPart>().GitCloneUrl)
-                .Chain("User", "User", user => user.As<CommonPart>().Owner);
+                .Token("HgCloneUrl", content => content.As<MirroringConfigurationPart>().HgCloneUrl);
     }
 }
