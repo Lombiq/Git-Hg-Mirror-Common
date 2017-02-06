@@ -75,6 +75,7 @@ namespace GitHgMirror.Common.Controllers.Api
             if (mirroringConfiguration == null && mirroringConfiguration.ContentType != ContentTypes.MirroringConfiguration) throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
 
             var mirroringConfigurationPart = mirroringConfiguration.As<MirroringConfigurationPart>();
+            mirroringConfigurationPart.Status = report.Status.ToString();
             mirroringConfigurationPart.StatusCode = report.Code;
             mirroringConfigurationPart.StatusMessage = report.Message;
 
@@ -91,10 +92,6 @@ namespace GitHgMirror.Common.Controllers.Api
                             { TokenNames.MirroringConfiguration, mirroringConfiguration }
                         });
                 }
-            }
-            else
-            {
-                mirroringConfigurationPart.Status = report.Status.ToString();
             }
         }
 
