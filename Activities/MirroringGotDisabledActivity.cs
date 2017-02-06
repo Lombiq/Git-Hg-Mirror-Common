@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace GitHgMirror.Common.Activities
 {
-    public class SendSyncFailedEmailActivity : Event
+    public class MirroringGotDisabledActivity : Event
     {
         public Localizer T { get; set; }
 
-        public override string Name => ActivityNames.SendSyncFailedEmail;
+        public override string Name => ActivityNames.MirroringGotDisabled;
 
         public override LocalizedString Category => T("GitHgMirror");
 
