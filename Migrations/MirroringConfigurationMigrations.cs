@@ -26,12 +26,11 @@ namespace GitHgMirror.Common.Migrations
                 table => table
                     .ContentPartRecord()
                     .Column<string>(nameof(MirroringConfigurationPartRecord.Status))
-                    .Column<string>(nameof(MirroringConfigurationPartRecord.StatusMessage))
             )
             .AlterTable(nameof(MirroringConfigurationPartRecord),
                 table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
 
-            return 3;
+            return 2;
         }
 
         public int UpdateFrom1()
@@ -45,16 +44,6 @@ namespace GitHgMirror.Common.Migrations
                 table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
 
             return 2;
-        }
-
-        public int UpdateFrom2()
-        {
-            SchemaBuilder.AlterTable(nameof(MirroringConfigurationPartRecord),
-                table => table
-                    .AddColumn<string>(nameof(MirroringConfigurationPartRecord.StatusMessage))
-            );
-
-            return 3;
         }
     }
 }
