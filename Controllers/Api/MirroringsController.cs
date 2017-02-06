@@ -85,10 +85,10 @@ namespace GitHgMirror.Common.Controllers.Api
                 if (mirroringConfigurationPart.FailedSyncCounter >= Constants.Configuration.MaximumNumberOfFailedSyncs)
                 {
                     mirroringConfigurationPart.Status = MirroringStatus.Disabled.ToString();
-                    _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, mirroringConfiguration,
+                    _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, null,
                         () => new Dictionary<string, object>
                         {
-                            { "Content", mirroringConfiguration }
+                            { TokenNames.MirroringConfiguration, mirroringConfiguration }
                         });
                 }
             }
