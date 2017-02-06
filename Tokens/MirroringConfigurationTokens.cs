@@ -1,7 +1,6 @@
 ﻿using GitHgMirror.Common.Constants;
 using GitHgMirror.Common.Models;
 using Orchard.ContentManagement;
-using Orchard.Core.Common.Models;
 using Orchard.Localization;
 using Orchard.Tokens;
 
