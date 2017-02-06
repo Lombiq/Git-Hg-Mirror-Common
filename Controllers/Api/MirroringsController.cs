@@ -88,8 +88,7 @@ namespace GitHgMirror.Common.Controllers.Api
                     _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, mirroringConfiguration,
                         () => new Dictionary<string, object>
                         {
-                            { TokenNames.MirroringConfiguration, mirroringConfiguration },
-                            { "Content", mirroringConfiguration}
+                            { "Content", mirroringConfiguration }
                         });
                 }
             }
