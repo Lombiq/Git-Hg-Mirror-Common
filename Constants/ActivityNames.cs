@@ -2,6 +2,6 @@
 {
     public class ActivityNames
     {
-        public const string SendSyncFailedEmail = nameof(Activities.SendSyncFailedEmailActivity);
+        public const string MirroringGotDisabled = nameof(Activities.MirroringGotDisabledActivity);
     }
 }

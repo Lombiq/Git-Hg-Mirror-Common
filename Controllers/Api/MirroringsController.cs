@@ -75,6 +75,7 @@ namespace GitHgMirror.Common.Controllers.Api
             if (mirroringConfiguration == null && mirroringConfiguration.ContentType != ContentTypes.MirroringConfiguration) throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
 
             var mirroringConfigurationPart = mirroringConfiguration.As<MirroringConfigurationPart>();
+            mirroringConfigurationPart.Status = report.Status.ToString();
             mirroringConfigurationPart.StatusCode = report.Code;
 
             if (report.Status == MirroringStatus.Failed)
@@ -85,16 +86,12 @@ namespace GitHgMirror.Common.Controllers.Api
                 if (mirroringConfigurationPart.FailedSyncCounter >= Constants.Configuration.MaximumNumberOfFailedSyncs)
                 {
                     mirroringConfigurationPart.Status = MirroringStatus.Disabled.ToString();
-                    _workflowManager.TriggerEvent(ActivityNames.SendSyncFailedEmail, null,
+                    _workflowManager.TriggerEvent(ActivityNames.MirroringGotDisabled, null,
                         () => new Dictionary<string, object>
                         {
                             { TokenNames.MirroringConfiguration, mirroringConfiguration }
                         });
                 }
-            }
-            else
-            {
-                mirroringConfigurationPart.Status = report.Status.ToString();
             }
         }
 
