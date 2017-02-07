@@ -39,9 +39,8 @@
     }
 
     @if (!string.IsNullOrEmpty(statusViewModel.StatusMessage) &&
-        (statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Cloning) ||
-        (statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Failed) ||
-        (statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Disabled))
+        (statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Failed ||
+        statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Disabled))
     {
         <div id="git-hg-mirror-last-exception-wrapper">
             <h3>@T("Last error:")</h3>
