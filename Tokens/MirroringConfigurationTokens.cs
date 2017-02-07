@@ -42,6 +42,6 @@ namespace GitHgMirror.Common.Tokens
                 .Token("FailedSyncCounter", content => content.As<MirroringConfigurationPart>().FailedSyncCounter)
                 .Token("GitCloneUrl", content => content.As<MirroringConfigurationPart>().GitCloneUrl)
                 .Token("HgCloneUrl", content => content.As<MirroringConfigurationPart>().HgCloneUrl)
-                .Token("EditUrl", content => new Uri(new Uri(_wca.GetContext().CurrentSite.BaseUrl), _urlHelper.Action(nameof(Controllers.MirroringConfigurationController.Edit), new { area = "GitHgMirror.Common", controller = "MirroringConfiguration", id= content.Id })));
+                .Token("EditUrl", content => new Uri(new Uri(_wca.GetContext().CurrentSite.BaseUrl), _urlHelper.Action(nameof(Controllers.MirroringConfigurationController.Edit), new { area = "GitHgMirror.Common", controller = "MirroringConfiguration", id = content.Id })));
     }
 }
