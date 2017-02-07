@@ -33,7 +33,7 @@ namespace GitHgMirror.Common.Tokens
                 .Token("FailedSyncCounter", T("Failed sync counter"), T("The number of failed synchronization attempts."))
                 .Token("GitCloneUrl", T("Git clone URL"), T("The full URL of the git repo."))
                 .Token("HgCloneUrl", T("Hg clone URL"), T("The full URL of the hg repo."))
-                .Token("EditUrl", T("The edit URL of the Mirroring configuration"), T("The edit URL of the Mirroring configuration"));
+                .Token("EditUrl", T("The edit URL of the Mirroring configuration"), T("The edit URL of the Mirroring configuration."));
 
         public void Evaluate(EvaluateContext context) =>
             context.For<IContent>(TokenNames.MirroringConfiguration, () => null)
