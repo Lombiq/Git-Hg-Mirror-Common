@@ -93,6 +93,10 @@ namespace GitHgMirror.Common.Controllers.Api
                         });
                 }
             }
+            else
+            {
+                mirroringConfigurationPart.FailedSyncCounter = 0;
+            }
         }
 
         private void ThrowIfPasswordInvalid(string password)
