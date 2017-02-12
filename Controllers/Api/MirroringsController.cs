@@ -93,7 +93,7 @@ namespace GitHgMirror.Common.Controllers.Api
                         });
                 }
             }
-            else
+            else if (report.Status == MirroringStatus.Syncing)
             {
                 mirroringConfigurationPart.FailedSyncCounter = 0;
             }
