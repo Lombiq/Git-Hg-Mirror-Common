@@ -38,8 +38,8 @@ namespace GitHgMirror.Common.Controllers.Api
 
             return _contentManager
                 .Query(ContentTypes.MirroringConfiguration)
-                .Where<MirroringConfigurationPartRecord>(record =>
-                    record.Status != MirroringStatus.Disabled.ToString())
+                .Where<MirroringConfigurationPartRecord>(record => record.Status != MirroringStatus.Disabled.ToString())
+                .OrderBy<MirroringConfigurationPartRecord>(record => record.Id)
                 .Slice(skip, take)
                 .Select(item =>
                     {
@@ -92,6 +92,10 @@ namespace GitHgMirror.Common.Controllers.Api
                             { TokenNames.MirroringConfiguration, mirroringConfiguration }
                         });
                 }
+            }
+            else if (report.Status == MirroringStatus.Syncing)
+            {
+                mirroringConfigurationPart.FailedSyncCounter = 0;
             }
         }
 

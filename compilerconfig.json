@@ -1,6 +1,10 @@
 ﻿[
-  {
-    "outputFile": "Styles/githgmirror-urlfield.css",
-    "inputFile": "Styles/githgmirror-urlfield.less"
-  }
+    {
+        "outputFile": "Styles/githgmirror-urlfield.css",
+        "inputFile": "Styles/githgmirror-urlfield.less"
+    },
+    {
+        "outputFile": "Styles/workflows-activity-mirroring-got-disabled-activity.css",
+        "inputFile": "Styles/workflows-activity-mirroring-got-disabled-activity.less"
+    }
 ]

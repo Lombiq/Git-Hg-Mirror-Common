@@ -127,6 +127,9 @@
     <Content Include="Styles\githgmirror-urlfield.css">
       <DependentUpon>githgmirror-urlfield.less</DependentUpon>
     </Content>
+    <Content Include="Styles\workflows-activity-mirroring-got-disabled-activity.css">
+      <DependentUpon>workflows-activity-mirroring-got-disabled-activity.less</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
@@ -216,6 +219,7 @@
     </None>
     <Content Include="Licence.md" />
     <Content Include="Readme.md" />
+    <Content Include="Styles\workflows-activity-mirroring-got-disabled-activity.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
