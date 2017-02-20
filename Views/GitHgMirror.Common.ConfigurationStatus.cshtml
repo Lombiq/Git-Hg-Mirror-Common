@@ -1,5 +1,6 @@
 ﻿@{
     var statusViewModel = (GitHgMirror.Common.Models.ViewModels.ConfigurationStatusViewModel)Model.StatusViewModel;
+    var statusIsDisabled = false;
 }
 
 <div id="git-hg-mirror-status-container" class="git-hg-mirror-status-@statusViewModel.Status">
@@ -24,8 +25,28 @@
             case GitHgMirror.CommonTypes.MirroringStatus.Syncing:
             @T("Everything works, everybody is happy!")
                 break;
+            case GitHgMirror.CommonTypes.MirroringStatus.Disabled:
+            @T("Your configuration failed {0} times in a row. Please check the settings of your mirroring configuration, especially that suitable credentials are included and correct, and try again. If the sync is still failing, please <a href=\"{1}\">drop us a line</a>.", GitHgMirror.Common.Constants.Configuration.MaximumNumberOfFailedSyncs, "https://lombiq.com/contact-us")
+                statusIsDisabled = true;
+                break;
         }
     </div>
+    @if (!statusIsDisabled)
+    {
+        <div id="git-hg-mirror-refresh-page-text">
+            @T("You can refresh this page to see if the status of this configuration changes.")
+        </div>
+    }
 
-    @T("You can refresh this page to see if the status of this configuration changes.")
+    @if (!string.IsNullOrEmpty(statusViewModel.StatusMessage) &&
+        (statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Failed ||
+        statusViewModel.Status == GitHgMirror.CommonTypes.MirroringStatus.Disabled))
+    {
+        <div id="git-hg-mirror-last-exception-wrapper">
+            <h3>@T("Last error:")</h3>
+            <div id="git-hg-mirror-last-exception-message" class="message message-Error">
+                @statusViewModel.StatusMessage
+            </div>
+        </div>
+    }
 </div>

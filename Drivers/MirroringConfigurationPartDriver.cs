@@ -58,7 +58,8 @@ namespace GitHgMirror.Common.Drivers
                     {
                         gitUriBuilder.Scheme = "git+https";
                     }
-                    if (!gitUri.PathAndQuery.EndsWith(".git"))
+                    // Visual Studio Online git repos' URLs shouldn't end in ".git".
+                    if (!gitUri.PathAndQuery.EndsWith(".git") && !gitUri.Authority.Contains("visualstudio.com"))
                     {
                         var path = gitUriBuilder.Path;
                         gitUriBuilder.Path = (path.EndsWith("/") ? path.Substring(0, path.Length - 1) : path) + ".git";
@@ -68,6 +69,7 @@ namespace GitHgMirror.Common.Drivers
                 }
 
                 part.Status = MirroringStatus.New.ToString();
+                part.FailedSyncCounter = 0;
             }
 
             return Editor(part, shapeHelper);

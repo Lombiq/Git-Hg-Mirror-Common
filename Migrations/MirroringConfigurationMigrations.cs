@@ -13,8 +13,8 @@ namespace GitHgMirror.Common.Migrations
             ContentDefinitionManager.AlterTypeDefinition(ContentTypes.MirroringConfiguration,
                 cfg => cfg
                     .DisplayedAs("Mirroring Configuration")
-                    .WithPart(typeof(MirroringConfigurationPart).Name)
-                    .WithPart(typeof(JavaScriptAntiSpamPart).Name)
+                    .WithPart(nameof(MirroringConfigurationPart))
+                    .WithPart(nameof(JavaScriptAntiSpamPart))
                     .WithPart("TitlePart")
                     .WithPart("CommonPart",
                         part => part
@@ -22,7 +22,28 @@ namespace GitHgMirror.Common.Migrations
                             .WithSetting("DateEditorSettings.ShowDateEditor", "False"))
                 );
 
-            return 1;
+            SchemaBuilder.CreateTable(nameof(MirroringConfigurationPartRecord),
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>(nameof(MirroringConfigurationPartRecord.Status))
+            )
+            .AlterTable(nameof(MirroringConfigurationPartRecord),
+                table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
+
+            return 2;
+        }
+
+        public int UpdateFrom1()
+        {
+            SchemaBuilder.CreateTable(nameof(MirroringConfigurationPartRecord),
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>(nameof(MirroringConfigurationPartRecord.Status))
+            )
+            .AlterTable(nameof(MirroringConfigurationPartRecord),
+                table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
+
+            return 2;
         }
     }
 }
