@@ -152,7 +152,7 @@ namespace GitHgMirror.Common.Controllers
 
             if (!_authorizer.Authorize(Orchard.Core.Contents.Permissions.DeleteContent, mirroringConfiguration, T("You are not allowed to delete this Mirroring Configuration."))) return new HttpUnauthorizedResult();
 
-            _contentManager.Remove(mirroringConfiguration);
+            _contentManager.Destroy(mirroringConfiguration);
 
             _orchardServices.Notifier.Information(T("Mirroring Configuration was successfully deleted."));
 
