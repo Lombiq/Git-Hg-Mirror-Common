@@ -20,6 +20,7 @@ namespace GitHgMirror.Common.Migrations
                         part => part
                             .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "False")
                             .WithSetting("DateEditorSettings.ShowDateEditor", "False"))
+                    .WithPart("IdentityPart")
                 );
 
             SchemaBuilder.CreateTable(nameof(MirroringConfigurationPartRecord),
@@ -44,6 +45,16 @@ namespace GitHgMirror.Common.Migrations
                 table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
 
             return 2;
+        }
+
+        public int UpdateFrom2()
+        {
+            ContentDefinitionManager.AlterTypeDefinition(ContentTypes.MirroringConfiguration,
+                cfg => cfg
+                    .WithPart("IdentityPart")
+                );
+
+            return 3;
         }
     }
 }
