@@ -4,6 +4,7 @@ using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Orchard.Localization;
 using System;
+using Orchard.ContentManagement.Handlers;
 
 namespace GitHgMirror.Common.Drivers
 {
@@ -73,6 +74,18 @@ namespace GitHgMirror.Common.Drivers
             }
 
             return Editor(part, shapeHelper);
+        }
+
+        protected override void Exporting(MirroringConfigurationPart part, ExportContentContext context)
+        {
+            ExportInfoset(part, context);
+            context.Element(part.PartDefinition.Name).SetAttributeValue("Status", part.Status);
+        }
+
+        protected override void Importing(MirroringConfigurationPart part, ImportContentContext context)
+        {
+            ImportInfoset(part, context);
+            context.ImportAttribute(part.PartDefinition.Name, "Status", value => part.Status = value);
         }
     }
 }
