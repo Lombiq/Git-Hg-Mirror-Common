@@ -31,7 +31,7 @@ namespace GitHgMirror.Common.Migrations
             .AlterTable(nameof(MirroringConfigurationPartRecord),
                 table => table.CreateIndex(nameof(MirroringConfigurationPartRecord.Status), nameof(MirroringConfigurationPartRecord.Status)));
 
-            return 2;
+            return 3;
         }
 
         public int UpdateFrom1()
