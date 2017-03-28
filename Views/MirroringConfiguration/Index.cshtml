@@ -35,20 +35,13 @@ else
                         <span>
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
-                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
-                                var isEdit = mirrorConfiguration.GitCloneUrl != null;
-                                var gitUrl = string.Empty;
-                                var hgUrl = string.Empty;
-                                if (isEdit)
+                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
+                                var passwordOrTokenAddedForHg = mirrorConfiguration.HgCloneUrl.LastIndexOf('@') > 0;
+                                var gitUrl = passwordOrTokenAddedForGit ? "https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@')) : mirrorConfiguration.GitCloneUrl;
+                                var hgUrl = passwordOrTokenAddedForHg ? "https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@')) : mirrorConfiguration.HgCloneUrl;
+                                if (!mirrorConfiguration.GitUrlIsHgUrl)
                                 {
-                                    var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
-                                    var passwordOrTokenAddedForHg = mirrorConfiguration.HgCloneUrl.LastIndexOf('@') > 0;
-                                    gitUrl = passwordOrTokenAddedForGit ? "https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@')) : mirrorConfiguration.GitCloneUrl;
-                                    hgUrl = passwordOrTokenAddedForHg ? "https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@')) : mirrorConfiguration.HgCloneUrl;
-                                    if (!mirrorConfiguration.GitUrlIsHgUrl)
-                                    {
-                                        gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git")).Substring(4);
-                                    }
+                                    gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git")).Substring(4);
                                 }
                             }
 

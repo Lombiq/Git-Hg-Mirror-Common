@@ -16,7 +16,7 @@
         new SelectListItem { Text = T("Two-way").Text, Value = MirroringDirection.TwoWay.ToString() }
     };
 
-    var isEdit = Model.GitCloneUrl != null;
+    var isEdit = Model.GitCloneUrl != null && Model.HgCloneUrl != null;
     var gitUrl = string.Empty;
     var hgUrl = string.Empty;
     if (isEdit)
