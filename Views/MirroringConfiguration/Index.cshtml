@@ -1,5 +1,6 @@
 ﻿@model GitHgMirror.Common.Models.ViewModels.MirroringConfigurationsViewModel
 @using GitHgMirror.Common.Models
+@using GitHgMirror.CommonTypes
 @using Orchard.ContentManagement
 
 @{
@@ -34,6 +35,21 @@ else
                         <span>
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
+                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
+                                var isEdit = mirrorConfiguration.GitCloneUrl != null;
+                                var gitUrl = string.Empty;
+                                var hgUrl = string.Empty;
+                                if (isEdit)
+                                {
+                                    var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
+                                    var passwordOrTokenAddedForHg = mirrorConfiguration.HgCloneUrl.LastIndexOf('@') > 0;
+                                    gitUrl = passwordOrTokenAddedForGit ? "https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@')) : mirrorConfiguration.GitCloneUrl;
+                                    hgUrl = passwordOrTokenAddedForHg ? "https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@')) : mirrorConfiguration.HgCloneUrl;
+                                    if (!mirrorConfiguration.GitUrlIsHgUrl)
+                                    {
+                                        gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git")).Substring(4);
+                                    }
+                                }
                             }
 
                             @ownMirroringConfigurationTitle
@@ -43,6 +59,20 @@ else
                         </span>
                         <span>
                             @Html.ActionLink(T("Delete").Text, "Delete", "MirroringConfiguration", new { Area = "GitHgMirror.Common", id = ownMirroringConfiguration.Id }, new { itemprop = "RemoveUrl UnsafeUrl" })
+                        </span>
+                        <span><br />
+                            @if (mirrorConfiguration.Direction == MirroringDirection.GitToHg.ToString())
+                            {
+                                @T("From {0} to {1}", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Mercurial").Text, gitUrl), Html.Link(T("Mercurial").Text, hgUrl))
+                            }
+                            else if (mirrorConfiguration.Direction == MirroringDirection.HgToGit.ToString())
+                            {
+                                @T("From {0} to {1}", Html.Link(T("Mercurial").Text, hgUrl), Html.Link(T("Git").Text, gitUrl))
+                            }
+                            else
+                            {
+                                @T("Between {0} and {1}", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Mercurial").Text, gitUrl), Html.Link(T("Git").Text, gitUrl))
+                            }
                         </span>
                     </li>
                 }
