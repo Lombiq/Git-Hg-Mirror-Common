@@ -23,11 +23,15 @@
     {
         var passwordOrTokenAddedForGit = Model.GitCloneUrl.LastIndexOf('@') > 0;
         var passwordOrTokenAddedForHg = Model.HgCloneUrl.LastIndexOf('@') > 0;
-        gitUrl = passwordOrTokenAddedForGit ? "https:\\" + Model.GitCloneUrl.Substring(Model.GitCloneUrl.LastIndexOf('@')) : Model.GitCloneUrl;
-        hgUrl = passwordOrTokenAddedForHg ? "https:\\" + Model.HgCloneUrl.Substring(Model.HgCloneUrl.LastIndexOf('@')) : Model.HgCloneUrl;
+        gitUrl = passwordOrTokenAddedForGit ? @"https:\\" + Model.GitCloneUrl.Substring(Model.GitCloneUrl.LastIndexOf('@') + 1) : Model.GitCloneUrl;
+        hgUrl = passwordOrTokenAddedForHg ? @"https:\\" + Model.HgCloneUrl.Substring(Model.HgCloneUrl.LastIndexOf('@') + 1) : Model.HgCloneUrl;
         if (!Model.GitUrlIsHgUrl)
         {
-            gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git")).Substring(4);
+            gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git"));
+            if (gitUrl.StartsWith("git+"))
+            {
+                gitUrl = gitUrl.Substring("git+".Length);
+            }
         }
     }
 }

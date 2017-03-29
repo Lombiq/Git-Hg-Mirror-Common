@@ -35,13 +35,18 @@ else
                         <span>
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
-                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
+                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
+                                var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
                                 var passwordOrTokenAddedForHg = mirrorConfiguration.HgCloneUrl.LastIndexOf('@') > 0;
-                                var gitUrl = passwordOrTokenAddedForGit ? "https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@')) : mirrorConfiguration.GitCloneUrl;
-                                var hgUrl = passwordOrTokenAddedForHg ? "https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@')) : mirrorConfiguration.HgCloneUrl;
+                                var gitUrl = passwordOrTokenAddedForGit ? @"https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@') + 1) : mirrorConfiguration.GitCloneUrl;
+                                var hgUrl = passwordOrTokenAddedForHg ? @"https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@') + 1) : mirrorConfiguration.HgCloneUrl;
                                 if (!mirrorConfiguration.GitUrlIsHgUrl)
                                 {
-                                    gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git")).Substring(4);
+                                    gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git"));
+                                    if (gitUrl.StartsWith("git+"))
+                                    {
+                                        gitUrl = gitUrl.Substring("git+".Length);
+                                    }
                                 }
                             }
 
