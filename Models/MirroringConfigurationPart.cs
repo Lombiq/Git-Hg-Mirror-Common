@@ -1,4 +1,5 @@
-﻿using Orchard.ContentManagement;
+﻿using GitHgMirror.CommonTypes;
+using Orchard.ContentManagement;
 using Orchard.ContentManagement.Records;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +22,7 @@ namespace GitHgMirror.Common.Models
         }
 
         [Required(ErrorMessage = "We can't just guess the direction of syncing, right?")]
-        public string Direction
+        public MirroringDirection Direction
         {
             get { return this.Retrieve(x => x.Direction); }
             set { this.Store(x => x.Direction, value); }

@@ -58,18 +58,20 @@ else
                         <span>
                             @Html.ActionLink(T("Delete").Text, "Delete", "MirroringConfiguration", new { Area = "GitHgMirror.Common", id = ownMirroringConfiguration.Id }, new { itemprop = "RemoveUrl UnsafeUrl" })
                         </span>
-                        <span><br />
-                            @if (mirrorConfiguration.Direction == MirroringDirection.GitToHg.ToString())
+                        <span>
+                            @switch (mirrorConfiguration.Direction)
                             {
-                                @T("From {0} to {1}", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Mercurial").Text, gitUrl), Html.Link(T("Mercurial").Text, hgUrl))
-                            }
-                            else if (mirrorConfiguration.Direction == MirroringDirection.HgToGit.ToString())
-                            {
-                                @T("From {0} to {1}", Html.Link(T("Mercurial").Text, hgUrl), Html.Link(T("Git").Text, gitUrl))
-                            }
-                            else
-                            {
-                                @T("Between {0} and {1}", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Mercurial").Text, gitUrl), Html.Link(T("Git").Text, gitUrl))
+                                case MirroringDirection.GitToHg:
+                                    @T("(from {0} to {1})", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Hg").Text, gitUrl), Html.Link(T("Hg").Text, hgUrl));
+                                    break;
+                                case MirroringDirection.HgToGit:
+                                    @T("(from {0} to {1})", Html.Link(T("Hg").Text, hgUrl), Html.Link(T("Git").Text, gitUrl));
+                                    break;
+                                case MirroringDirection.TwoWay:
+                                    @T("(between {0} and {1})", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Hg").Text, gitUrl), Html.Link(T("Hg").Text, hgUrl))
+                                    break;
+                                default:
+                                    break;
                             }
                         </span>
                     </li>

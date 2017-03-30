@@ -48,7 +48,7 @@ namespace GitHgMirror.Common.Controllers.Api
                         return new MirroringConfiguration
                         {
                             Id = item.Id,
-                            Direction = (MirroringDirection)Enum.Parse(typeof(MirroringDirection), configurationPart.Direction),
+                            Direction = configurationPart.Direction,
                             HgCloneUri = new Uri(configurationPart.HgCloneUrl),
                             GitCloneUri = new Uri(configurationPart.GitCloneUrl),
                             GitUrlIsHgUrl = configurationPart.GitUrlIsHgUrl
