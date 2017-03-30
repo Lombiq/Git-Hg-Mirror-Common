@@ -1,6 +1,7 @@
 ﻿@model GitHgMirror.Common.Models.ViewModels.MirroringConfigurationsViewModel
 @using GitHgMirror.Common.Models
 @using GitHgMirror.CommonTypes
+@using GitHgMirror.Common.Helpers
 @using Orchard.ContentManagement
 
 @{
@@ -36,18 +37,10 @@ else
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
                                 var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
-                                var passwordOrTokenAddedForGit = mirrorConfiguration.GitCloneUrl.LastIndexOf('@') > 0;
-                                var passwordOrTokenAddedForHg = mirrorConfiguration.HgCloneUrl.LastIndexOf('@') > 0;
-                                var gitUrl = passwordOrTokenAddedForGit ? @"https:\\" + mirrorConfiguration.GitCloneUrl.Substring(mirrorConfiguration.GitCloneUrl.LastIndexOf('@') + 1) : mirrorConfiguration.GitCloneUrl;
-                                var hgUrl = passwordOrTokenAddedForHg ? @"https:\\" + mirrorConfiguration.HgCloneUrl.Substring(mirrorConfiguration.HgCloneUrl.LastIndexOf('@') + 1) : mirrorConfiguration.HgCloneUrl;
-                                if (!mirrorConfiguration.GitUrlIsHgUrl)
-                                {
-                                    gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git"));
-                                    if (gitUrl.StartsWith("git+"))
-                                    {
-                                        gitUrl = gitUrl.Substring("git+".Length);
-                                    }
-                                }
+                                var gitUrl = !mirrorConfiguration.GitUrlIsHgUrl ?
+                                    CloneUrlHelper.GitUrlIsHgUrl(CloneUrlHelper.ConvertToClickableUrl(mirrorConfiguration.GitCloneUrl)) :
+                                    CloneUrlHelper.ConvertToClickableUrl(mirrorConfiguration.GitCloneUrl);
+                                var hgUrl = CloneUrlHelper.ConvertToClickableUrl(mirrorConfiguration.HgCloneUrl);
                             }
 
                             @ownMirroringConfigurationTitle

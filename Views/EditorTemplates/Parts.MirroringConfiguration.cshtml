@@ -1,5 +1,6 @@
 ﻿@model GitHgMirror.Common.Models.MirroringConfigurationPart
 @using GitHgMirror.CommonTypes
+@using GitHgMirror.Common.Helpers
 
 @{
     Style.Include("~/Modules/GitHgMirror.Common/Content/qTip/jquery.qtip.min.css");
@@ -16,23 +17,15 @@
         new SelectListItem { Text = T("Two-way").Text, Value = MirroringDirection.TwoWay.ToString() }
     };
 
-    var isEdit = Model.GitCloneUrl != null && Model.HgCloneUrl != null;
+    var isEdit = Model.Id != 0 && Model.GitCloneUrl != null && Model.HgCloneUrl != null;
     var gitUrl = string.Empty;
     var hgUrl = string.Empty;
     if (isEdit)
     {
-        var passwordOrTokenAddedForGit = Model.GitCloneUrl.LastIndexOf('@') > 0;
-        var passwordOrTokenAddedForHg = Model.HgCloneUrl.LastIndexOf('@') > 0;
-        gitUrl = passwordOrTokenAddedForGit ? @"https:\\" + Model.GitCloneUrl.Substring(Model.GitCloneUrl.LastIndexOf('@') + 1) : Model.GitCloneUrl;
-        hgUrl = passwordOrTokenAddedForHg ? @"https:\\" + Model.HgCloneUrl.Substring(Model.HgCloneUrl.LastIndexOf('@') + 1) : Model.HgCloneUrl;
-        if (!Model.GitUrlIsHgUrl)
-        {
-            gitUrl = gitUrl.Remove(gitUrl.LastIndexOf(".git"));
-            if (gitUrl.StartsWith("git+"))
-            {
-                gitUrl = gitUrl.Substring("git+".Length);
-            }
-        }
+        gitUrl = !Model.GitUrlIsHgUrl ?
+                    CloneUrlHelper.GitUrlIsHgUrl(CloneUrlHelper.ConvertToClickableUrl(Model.GitCloneUrl)) :
+                    CloneUrlHelper.ConvertToClickableUrl(Model.GitCloneUrl);
+        hgUrl = CloneUrlHelper.ConvertToClickableUrl(Model.HgCloneUrl);
     }
 }
 
@@ -42,15 +35,15 @@
         <ol>
             <li>
                 @Html.LabelFor(m => m.GitCloneUrl, T("Git clone URL"))
+                @if (isEdit && !string.IsNullOrEmpty(gitUrl))
+                {
+                    @T("{0} to repo", Html.Link(T("link"), gitUrl));
+                }
                 <div id="@(Html.FieldIdFor(m => m.GitCloneUrl) + "_SwitchButton")" class="password-switch">
                     <a>Hide</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.GitCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the git repo. Note that only HTTPS is supported, no SSH! You can include a username and password e.g. like this: https://username:password@example.com/repo.git; or in case of GitHub you can use an <a href=\"https://github.com/settings/tokens/\" target=\"_blank\">access token</a> as following: git+https://token:x-oauth-basic@github.com/user/repo.git (please do either of these so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.GitCloneUrl)
-                @if (isEdit && !string.IsNullOrEmpty(gitUrl))
-                {
-                    @Html.Link(gitUrl, gitUrl)
-                }
             </li>
             <li>
                 @Html.LabelFor(m => m.GitUrlIsHgUrl, T("Git URL is really an hg URL"))
@@ -58,15 +51,15 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.HgCloneUrl, T("Hg clone URL"))
+                @if (isEdit && !string.IsNullOrEmpty(hgUrl))
+                {
+                    @T("{0} to repo", Html.Link(T("link"), hgUrl));
+                }
                 <div id="@(Html.FieldIdFor(m => m.HgCloneUrl) + "_SwitchButton")" class="password-switch">
                     <a>Hide</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.HgCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the hg repo. You can include a username and password e.g. like this: https://username:password@example.com/repo (please do this so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.HgCloneUrl)
-                @if (isEdit && !string.IsNullOrEmpty(hgUrl))
-                {
-                    @Html.Link(hgUrl, hgUrl)
-                }
             </li>
             <li>
                 @Html.LabelFor(m => m.Direction, T("Mirroring direction"))
