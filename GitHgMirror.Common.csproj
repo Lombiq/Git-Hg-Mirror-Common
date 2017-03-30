@@ -169,6 +169,7 @@
     <Compile Include="Controllers\Api\MirroringsController.cs" />
     <Compile Include="Drivers\MirroringConfigurationPartDriver.cs" />
     <Compile Include="Handlers\MirroringConfigurationPartHandler.cs" />
+    <Compile Include="Helpers\CloneUrlHelper.cs" />
     <Compile Include="Migrations\MirroringConfigurationMigrations.cs" />
     <Compile Include="Models\MirroringConfigurationPart.cs" />
     <Compile Include="Models\ViewModels\ConfigurationStatusViewModel.cs" />
