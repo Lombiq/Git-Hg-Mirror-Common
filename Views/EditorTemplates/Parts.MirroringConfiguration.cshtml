@@ -22,10 +22,10 @@
     var hgUrl = string.Empty;
     if (isEdit)
     {
-        gitUrl = !Model.GitUrlIsHgUrl ?
-                    CloneUrlHelper.GitUrlIsHgUrl(CloneUrlHelper.ConvertToClickableUrl(Model.GitCloneUrl)) :
-                    CloneUrlHelper.ConvertToClickableUrl(Model.GitCloneUrl);
-        hgUrl = CloneUrlHelper.ConvertToClickableUrl(Model.HgCloneUrl);
+        gitUrl = Model.GitUrlIsHgUrl ?
+                    CloneUrlHelper.ConvertToUrl(Model.GitCloneUrl) :
+                    CloneUrlHelper.ConvertGitUrlToHgUrl(CloneUrlHelper.ConvertToUrl(Model.GitCloneUrl));
+        hgUrl = CloneUrlHelper.ConvertToUrl(Model.HgCloneUrl);
     }
 }
 
@@ -40,7 +40,7 @@
                     @T("{0} to repo", Html.Link(T("link"), gitUrl));
                 }
                 <div id="@(Html.FieldIdFor(m => m.GitCloneUrl) + "_SwitchButton")" class="password-switch">
-                    <a>Hide</a> <img class="password-visible" />
+                    <a>@T("Hide")</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.GitCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the git repo. Note that only HTTPS is supported, no SSH! You can include a username and password e.g. like this: https://username:password@example.com/repo.git; or in case of GitHub you can use an <a href=\"https://github.com/settings/tokens/\" target=\"_blank\">access token</a> as following: git+https://token:x-oauth-basic@github.com/user/repo.git (please do either of these so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.GitCloneUrl)
@@ -56,7 +56,7 @@
                     @T("{0} to repo", Html.Link(T("link"), hgUrl));
                 }
                 <div id="@(Html.FieldIdFor(m => m.HgCloneUrl) + "_SwitchButton")" class="password-switch">
-                    <a>Hide</a> <img class="password-visible" />
+                    <a>@T("Hide")</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.HgCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the hg repo. You can include a username and password e.g. like this: https://username:password@example.com/repo (please do this so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.HgCloneUrl)

@@ -2,17 +2,20 @@
 {
     public static class CloneUrlHelper
     {
-        public static string ConvertToClickableUrl(string url)
+        public static string ConvertToUrl(string url, bool gitUrlIsHgUrl = false)
         {
             var passwordOrTokenAdded = url.LastIndexOf('@') > 0;
             url = passwordOrTokenAdded ? @"https:\\" + url.Substring(url.LastIndexOf('@') + 1) : url;
 
-            return url;
+            return gitUrlIsHgUrl ? ConvertGitUrlToHgUrl(url) : url;
         }
 
-        public static string GitUrlIsHgUrl(string url)
+        public static string ConvertGitUrlToHgUrl(string url)
         {
-            url = url.Remove(url.LastIndexOf(".git"));
+            if (url.EndsWith(".git"))
+            {
+                url = url.Remove(url.LastIndexOf(".git"));
+            }
 
             if (url.StartsWith("git+"))
             {
