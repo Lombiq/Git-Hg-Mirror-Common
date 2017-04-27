@@ -1,26 +1,24 @@
-﻿namespace GitHgMirror.Common.Helpers
+﻿using System;
+
+namespace GitHgMirror.Common.Helpers
 {
     public static class CloneUrlHelper
     {
-        public static string ConvertToUrl(string url, bool gitUrlIsHgUrl = false)
+        public static string ConvertToRepoUrl(string url)
         {
-            var passwordOrTokenAdded = url.LastIndexOf('@') > 0;
-            url = passwordOrTokenAdded ? @"https:\\" + url.Substring(url.LastIndexOf('@') + 1) : url;
+            var uri = new Uri(url);
+            var uriBuilder = new UriBuilder(uri);
 
-            return gitUrlIsHgUrl ? ConvertGitUrlToHgUrl(url) : url;
-        }
+            uriBuilder.Scheme = "https";
+            uriBuilder.Password = null;
+            uriBuilder.UserName = null;
 
-        public static string ConvertGitUrlToHgUrl(string url)
-        {
-            if (url.EndsWith(".git"))
+            if (uri.PathAndQuery.EndsWith(".git"))
             {
-                url = url.Remove(url.LastIndexOf(".git"));
+                uriBuilder.Path = uriBuilder.Path.Remove(uriBuilder.Path.LastIndexOf(".git"));
             }
 
-            if (url.StartsWith("git+"))
-            {
-                url = url.Substring("git+".Length);
-            }
+            url = uriBuilder.Uri.ToString();
 
             return url;
         }

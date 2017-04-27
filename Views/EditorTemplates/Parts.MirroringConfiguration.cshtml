@@ -22,10 +22,8 @@
     var hgUrl = string.Empty;
     if (isEdit)
     {
-        gitUrl = Model.GitUrlIsHgUrl ?
-                    CloneUrlHelper.ConvertToUrl(Model.GitCloneUrl) :
-                    CloneUrlHelper.ConvertGitUrlToHgUrl(CloneUrlHelper.ConvertToUrl(Model.GitCloneUrl));
-        hgUrl = CloneUrlHelper.ConvertToUrl(Model.HgCloneUrl);
+        gitUrl = CloneUrlHelper.ConvertToRepoUrl(Model.GitCloneUrl);
+        hgUrl = CloneUrlHelper.ConvertToRepoUrl(Model.HgCloneUrl);
     }
 }
 
