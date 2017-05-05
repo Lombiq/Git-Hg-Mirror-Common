@@ -2,9 +2,9 @@
 
 namespace GitHgMirror.Common.Helpers
 {
-    public static class CloneUrlHelper
+    public static class RepositoryUrlHelper
     {
-        public static string ConvertToRepoUrl(string url)
+        public static string RemoveAuthenticationDetails(string url)
         {
             var uri = new Uri(url);
             var uriBuilder = new UriBuilder(uri);
@@ -18,9 +18,7 @@ namespace GitHgMirror.Common.Helpers
                 uriBuilder.Path = uriBuilder.Path.Remove(uriBuilder.Path.LastIndexOf(".git"));
             }
 
-            url = uriBuilder.Uri.ToString();
-
-            return url;
+            return uriBuilder.Uri.ToString(); ;
         }
     }
 }
