@@ -22,8 +22,8 @@
     var hgUrl = string.Empty;
     if (isEdit)
     {
-        gitUrl = CloneUrlHelper.ConvertToRepoUrl(Model.GitCloneUrl);
-        hgUrl = CloneUrlHelper.ConvertToRepoUrl(Model.HgCloneUrl);
+        gitUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(Model.GitCloneUrl);
+        hgUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(Model.HgCloneUrl);
     }
 }
 
@@ -35,7 +35,7 @@
                 @Html.LabelFor(m => m.GitCloneUrl, T("Git clone URL"))
                 @if (isEdit && !string.IsNullOrEmpty(gitUrl))
                 {
-                    @T("{0} to repo", Html.Link(T("link"), gitUrl));
+                    @Html.Link(T("(link to repository)"), gitUrl);
                 }
                 <div id="@(Html.FieldIdFor(m => m.GitCloneUrl) + "_SwitchButton")" class="password-switch">
                     <a>@T("Hide")</a> <img class="password-visible" />
@@ -51,7 +51,7 @@
                 @Html.LabelFor(m => m.HgCloneUrl, T("Hg clone URL"))
                 @if (isEdit && !string.IsNullOrEmpty(hgUrl))
                 {
-                    @T("{0} to repo", Html.Link(T("link"), hgUrl));
+                    @Html.Link(T("(link to repository)"), hgUrl);
                 }
                 <div id="@(Html.FieldIdFor(m => m.HgCloneUrl) + "_SwitchButton")" class="password-switch">
                     <a>@T("Hide")</a> <img class="password-visible" />

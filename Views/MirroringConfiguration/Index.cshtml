@@ -37,8 +37,8 @@ else
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
                                 var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
-                                var gitUrl = CloneUrlHelper.ConvertToRepoUrl(mirrorConfiguration.GitCloneUrl);
-                                var hgUrl = CloneUrlHelper.ConvertToRepoUrl(mirrorConfiguration.HgCloneUrl);
+                                var gitUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(mirrorConfiguration.GitCloneUrl);
+                                var hgUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(mirrorConfiguration.HgCloneUrl);
                             }
 
                             @ownMirroringConfigurationTitle
