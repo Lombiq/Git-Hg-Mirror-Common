@@ -18,7 +18,7 @@ namespace GitHgMirror.Common.Helpers
                 uriBuilder.Path = uriBuilder.Path.Remove(uriBuilder.Path.LastIndexOf(".git"));
             }
 
-            return uriBuilder.Uri.ToString(); ;
+            return uriBuilder.Uri.ToString();
         }
     }
 }
