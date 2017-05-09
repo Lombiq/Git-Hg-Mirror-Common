@@ -1,5 +1,7 @@
 ﻿@model GitHgMirror.Common.Models.ViewModels.MirroringConfigurationsViewModel
 @using GitHgMirror.Common.Models
+@using GitHgMirror.CommonTypes
+@using GitHgMirror.Common.Helpers
 @using Orchard.ContentManagement
 
 @{
@@ -34,6 +36,9 @@ else
                         <span>
                             @{
                                 var ownMirroringConfigurationTitle = ownMirroringConfiguration.As<Orchard.ContentManagement.Aspects.ITitleAspect>().Title;
+                                var mirrorConfiguration = ownMirroringConfiguration.As<MirroringConfigurationPart>();
+                                var gitUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(mirrorConfiguration.GitCloneUrl);
+                                var hgUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(mirrorConfiguration.HgCloneUrl);
                             }
 
                             @ownMirroringConfigurationTitle
@@ -43,6 +48,22 @@ else
                         </span>
                         <span>
                             @Html.ActionLink(T("Delete").Text, "Delete", "MirroringConfiguration", new { Area = "GitHgMirror.Common", id = ownMirroringConfiguration.Id }, new { itemprop = "RemoveUrl UnsafeUrl" })
+                        </span>
+                        <span>
+                            @switch (mirrorConfiguration.Direction)
+                            {
+                                case MirroringDirection.GitToHg:
+                                    @T("(from {0} to {1})", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Hg").Text, gitUrl), Html.Link(T("Hg").Text, hgUrl));
+                                    break;
+                                case MirroringDirection.HgToGit:
+                                    @T("(from {0} to {1})", Html.Link(T("Hg").Text, hgUrl), Html.Link(T("Git").Text, gitUrl));
+                                    break;
+                                case MirroringDirection.TwoWay:
+                                    @T("(between {0} and {1})", Html.Link(!mirrorConfiguration.GitUrlIsHgUrl ? T("Git").Text : T("Hg").Text, gitUrl), Html.Link(T("Hg").Text, hgUrl))
+                                    break;
+                                default:
+                                    break;
+                            }
                         </span>
                     </li>
                 }

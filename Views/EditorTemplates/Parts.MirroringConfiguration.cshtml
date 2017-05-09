@@ -1,5 +1,6 @@
 ﻿@model GitHgMirror.Common.Models.MirroringConfigurationPart
 @using GitHgMirror.CommonTypes
+@using GitHgMirror.Common.Helpers
 
 @{
     Style.Include("~/Modules/GitHgMirror.Common/Content/qTip/jquery.qtip.min.css");
@@ -15,6 +16,15 @@
         new SelectListItem { Text = T("Hg to git").Text, Value = MirroringDirection.HgToGit.ToString() },
         new SelectListItem { Text = T("Two-way").Text, Value = MirroringDirection.TwoWay.ToString() }
     };
+
+    var isEdit = Model.Id != 0 && Model.GitCloneUrl != null && Model.HgCloneUrl != null;
+    var gitUrl = string.Empty;
+    var hgUrl = string.Empty;
+    if (isEdit)
+    {
+        gitUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(Model.GitCloneUrl);
+        hgUrl = RepositoryUrlHelper.RemoveAuthenticationDetails(Model.HgCloneUrl);
+    }
 }
 
 @using (Html.BeginFormAntiForgeryPost())
@@ -23,8 +33,12 @@
         <ol>
             <li>
                 @Html.LabelFor(m => m.GitCloneUrl, T("Git clone URL"))
+                @if (isEdit && !string.IsNullOrEmpty(gitUrl))
+                {
+                    @Html.Link(T("(link to repository)"), gitUrl);
+                }
                 <div id="@(Html.FieldIdFor(m => m.GitCloneUrl) + "_SwitchButton")" class="password-switch">
-                    <a>Hide</a> <img class="password-visible" />
+                    <a>@T("Hide")</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.GitCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the git repo. Note that only HTTPS is supported, no SSH! You can include a username and password e.g. like this: https://username:password@example.com/repo.git; or in case of GitHub you can use an <a href=\"https://github.com/settings/tokens/\" target=\"_blank\">access token</a> as following: git+https://token:x-oauth-basic@github.com/user/repo.git (please do either of these so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.GitCloneUrl)
@@ -35,8 +49,12 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.HgCloneUrl, T("Hg clone URL"))
+                @if (isEdit && !string.IsNullOrEmpty(hgUrl))
+                {
+                    @Html.Link(T("(link to repository)"), hgUrl);
+                }
                 <div id="@(Html.FieldIdFor(m => m.HgCloneUrl) + "_SwitchButton")" class="password-switch">
-                    <a>Hide</a> <img class="password-visible" />
+                    <a>@T("Hide")</a> <img class="password-visible" />
                 </div>
                 @Html.TextBox(Html.NameOf(m => m.HgCloneUrl) + "_Visible", null, new { @class = "text large url-field", autocomplete = "off", title = T("The full URL of the hg repo. You can include a username and password e.g. like this: https://username:password@example.com/repo (please do this so we can push to the repo if this is the target repo). Be aware though that necessarily we store these URLs as plain text.") })
                 @Html.HiddenFor(m => m.HgCloneUrl)
