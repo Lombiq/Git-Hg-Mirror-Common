@@ -30,8 +30,8 @@ namespace GitHgMirror.Common.Models
 
         public string Status
         {
-            get { return this.Retrieve(x => x.Status); }
-            set { this.Store(x => x.Status, value); }
+            get { return Retrieve(x => x.Status); }
+            set { Store(x => x.Status, value); }
         }
 
         public int StatusCode

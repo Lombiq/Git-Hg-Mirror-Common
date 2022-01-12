@@ -13,6 +13,7 @@ using Orchard.UI.Notify;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace GitHgMirror.Common.Controllers
 {
@@ -158,6 +159,14 @@ namespace GitHgMirror.Common.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public static RouteValueDictionary GetEditorRouteValues(int id) => new RouteValueDictionary
+        {
+            { "area", "GitHgMirror.Common" },
+            { "controller", "MirroringConfiguration" },
+            { "action", nameof(MirroringConfigurationController.Edit) },
+            { "id", id },
+        };
 
 
         private bool IsAuthorizedToEditMirroringConfiguration(IContent mirroringConfiguration)
