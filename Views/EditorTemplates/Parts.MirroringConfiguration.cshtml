@@ -66,6 +66,11 @@
                 @Html.LabelFor(m => m.Direction, T("Mirroring direction"))
                 @Html.DropDownListFor(m => m.Direction, directions)
             </li>
+            <li>
+                @Html.LabelFor(m => m.GitPushRefsRegex, T("Git ref selection regex for pushes"))
+                @Html.TextBoxFor(m => m.GitPushRefsRegex, new { @class = "text large" })
+                @Html.Hint(T("If you want to restrict which Git references to push, then provide a regular expression to match them here. Note that full Git refs will be checked, e.g. \"refs/heads/main\"."), new { @class = "form-text text-muted" })
+            </li>
         </ol>
     </fieldset>
 }
