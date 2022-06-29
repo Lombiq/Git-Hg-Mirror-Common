@@ -28,6 +28,12 @@ namespace GitHgMirror.Common.Models
             set { this.Store(x => x.Direction, value); }
         }
 
+        public string GitPushRefsRegex
+        {
+            get { return this.Retrieve(x => x.GitPushRefsRegex); }
+            set { this.Store(x => x.GitPushRefsRegex, value); }
+        }
+
         public string Status
         {
             get { return Retrieve(x => x.Status); }

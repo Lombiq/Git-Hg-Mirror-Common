@@ -22,8 +22,8 @@ namespace GitHgMirror.Common.Controllers.Api
 
 
         public MirroringsController(
-            IContentManager contentManager, 
-            IAppConfigurationAccessor appConfigurationAccessor, 
+            IContentManager contentManager,
+            IAppConfigurationAccessor appConfigurationAccessor,
             IWorkflowManager workflowManager)
         {
             _contentManager = contentManager;
@@ -49,6 +49,7 @@ namespace GitHgMirror.Common.Controllers.Api
                         {
                             Id = item.Id,
                             Direction = configurationPart.Direction,
+                            GitPushRefsRegex = configurationPart.GitPushRefsRegex,
                             HgCloneUri = new Uri(configurationPart.HgCloneUrl),
                             GitCloneUri = new Uri(configurationPart.GitCloneUrl),
                             GitUrlIsHgUrl = configurationPart.GitUrlIsHgUrl
